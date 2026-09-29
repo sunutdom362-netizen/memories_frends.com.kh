@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="km" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Memory | Digital Scrapbook of Our Friendship</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Outfit"', '"Kantumruy Pro"', 'sans-serif'],
+            serif: ['"Playfair Display"', '"Kantumruy Pro"', 'serif'],
+            khmer: ['"Kantumruy Pro"', 'sans-serif'],
+          },
+          colors: {
+            roseSoft: '#FFE4E6',
+            roseMedium: '#FDA4AF',
+            rosePrimary: '#F43F5E',
+            lavenderSoft: '#EDE9FE',
+            lavenderMedium: '#C4B5FD',
+            lavenderDeep: '#8B5CF6',
+            champagne: '#FEF3C7',
+          },
+          boxShadow: {
+            'glass': '0 8px 32px 0 rgba(225, 112, 140, 0.18)',
+            'glass-hover': '0 14px 40px 0 rgba(225, 112, 140, 0.28)',
+            'glow': '0 0 25px rgba(244, 63, 94, 0.35)',
+            'glow-soft': '0 0 20px rgba(196, 181, 253, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FFF1F2;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #FDA4AF;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #F43F5E;
+    }
+
+    /* Glassmorphism Styles */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    .glass-dark {
+      background: rgba(30, 27, 46, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Ambient Gradients */
+    body {
+      background: radial-gradient(circle at 10% 20%, #ffe4e6 0%, #fae8ff 45%, #ede9fe 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #374151;
+    }
+
+    /* Floating Drifting Keyframes */
+    @keyframes float1 {
+      0%, 100% { transform: translateY(0px) rotate(-3deg); }
+      50% { transform: translateY(-16px) rotate(1deg); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translateY(0px) rotate(4deg); }
+      50% { transform: translateY(-22px) rotate(-2deg); }
+    }
+    @keyframes float3 {
+      0%, 100% { transform: translateY(0px) rotate(-2deg); }
+      50% { transform: translateY(-14px) rotate(3deg); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.2); }
+      50% { box-shadow: 0 0 35px rgba(244, 63, 94, 0.45); }
+    }
+
+    .animate-float-1 { animation: float1 6s ease-in-out infinite; }
+    .animate-float-2 { animation: float2 7.5s ease-in-out infinite; }
+    .animate-float-3 { animation: float3 6.8s ease-in-out infinite; }
+    .animate-pulse-glow { animation: pulseGlow 4s ease-in-out infinite; }
+
+    /* Custom Cursor */
+    .custom-cursor {
+      pointer-events: none;
+      position: fixed;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid rgba(244, 63, 94, 0.6);
+      background-color: rgba(253, 164, 175, 0.35);
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+      z-index: 9999;
+      display: none;
+    }
+    @media (pointer: fine) {
+      .custom-cursor {
+        display: block;
+      }
+    }
+
+    /* Reveal Animations on Scroll */
+    .reveal-elem {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .reveal-elem.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Polaroids Styling */
+    .polaroid-frame {
+      box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .polaroid-frame:hover {
+      transform: translateY(-8px) scale(1.04) rotate(0deg) !important;
+      box-shadow: 0 20px 35px -5px rgba(244, 63, 94, 0.3), 0 10px 15px -5px rgba(139, 92, 246, 0.2);
+      z-index: 30;
+    }
+  </style>
+</head>
+<body class="relative selection:bg-rose-200 selection:text-rose-700">
+
+  <div id="cursor" class="custom-cursor shadow-glow"></div>
+
+  <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-3">
+      <div class="glass-nav rounded-2xl px-5 py-3.5 shadow-glass flex items-center justify-between">
+        
+        <!-- Logo / Brand -->
+        <a href="#home" class="flex items-center gap-2 group">
+          <span class="w-10 h-10 rounded-full bg-gradient-to-tr from-rose-500 to-violet-500 flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition-transform duration-300">
+            <i class="fa-solid fa-heart text-sm animate-pulse"></i>
+          </span>
+          <span class="font-serif font-bold text-xl md:text-2xl bg-gradient-to-r from-rose-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+            Our Memory
+          </span>
+        </a>
+
+        <!-- Desktop Navigation Items -->
+        <div class="hidden lg:flex items-center gap-7 font-medium text-sm text-gray-600">
+          <a href="#home" class="hover:text-rose-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-house-chimney text-xs"></i> ទំព័រដើម</a>
+          <a href="#floating-cloud" class="hover:text-rose-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-cloud text-xs"></i> Floating Cloud</a>
+          <a href="#timeline" class="hover:text-rose-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-compass text-xs"></i> Our Journey</a>
+          <a href="#gallery" class="hover:text-rose-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-images text-xs"></i> Gallery</a>
+          <a href="#special" class="hover:text-rose-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-sparkles text-xs"></i> Special Card</a>
+          <a href="#friendship" class="hover:text-rose-500 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-envelope-open-heart text-xs"></i> Reveal</a>
+        </div>
+
+        <!-- Action Buttons (Music, Add Memory, Mobile Menu) -->
+        <div class="flex items-center gap-2.5 sm:gap-3">
+          <!-- Background Audio Button -->
+          <button id="musicToggleBtn" title="Play/Mute Romantic Melody" class="glass-card px-3.5 py-2 rounded-xl text-xs font-semibold text-rose-600 flex items-center gap-2 hover:bg-white hover:shadow-glow transition-all duration-300 active:scale-95 border border-rose-200">
+            <i id="musicIcon" class="fa-solid fa-volume-xmark text-sm"></i>
+            <span id="musicText" class="hidden sm:inline">Music OFF</span>
+          </button>
+
+          <!-- Add Memory Open Button -->
+          <button onclick="openAddMemoryModal()" class="bg-gradient-to-r from-rose-500 to-violet-500 hover:from-rose-600 hover:to-violet-600 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow-glow hover:shadow-lg transition-all duration-300 flex items-center gap-2 active:scale-95">
+            <i class="fa-solid fa-plus-circle"></i>
+            <span>Add Memory</span>
+          </button>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="mobileMenuBtn" aria-label="Open navigation menu" class="lg:hidden w-10 h-10 rounded-xl glass-card flex items-center justify-center text-gray-700 hover:text-rose-500 text-lg transition-colors">
+            <i id="hamburgerIcon" class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <div id="mobileMenu" class="hidden lg:hidden mt-2 glass-nav rounded-2xl p-4 shadow-glass border border-white/60 flex flex-col gap-3 font-medium text-sm text-gray-700">
+        <a href="#home" class="mobile-nav-link p-2 rounded-lg hover:bg-rose-50 hover:text-rose-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-house-chimney text-rose-400"></i> ទំព័រដើម (Home)</a>
+        <a href="#floating-cloud" class="mobile-nav-link p-2 rounded-lg hover:bg-rose-50 hover:text-rose-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-cloud text-violet-400"></i> Floating Cloud</a>
+        <a href="#timeline" class="mobile-nav-link p-2 rounded-lg hover:bg-rose-50 hover:text-rose-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-compass text-rose-400"></i> Our Journey (Timeline)</a>
+        <a href="#gallery" class="mobile-nav-link p-2 rounded-lg hover:bg-rose-50 hover:text-rose-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-images text-violet-400"></i> Memory Gallery</a>
+        <a href="#special" class="mobile-nav-link p-2 rounded-lg hover:bg-rose-50 hover:text-rose-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-sparkles text-amber-400"></i> Special Memory</a>
+        <a href="#friendship" class="mobile-nav-link p-2 rounded-lg hover:bg-rose-50 hover:text-rose-500 transition-colors flex items-center gap-2"><i class="fa-solid fa-envelope-open-heart text-rose-500"></i> Reveal Message</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="relative z-10 pt-28">
+
+    <section id="home" class="min-h-[85vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+      <div class="max-w-4xl mx-auto text-center reveal-elem active">
+        
+        <!-- Hero Romantic Floating Badge -->
+        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-card border border-rose-200/80 text-rose-600 font-semibold text-xs sm:text-sm shadow-sm mb-6 animate-bounce">
+          <i class="fa-solid fa-heart text-rose-500"></i>
+          <span>A Digital Scrapbook of Two Best Friends Forever</span>
+          <i class="fa-solid fa-sparkles text-amber-400"></i>
+        </div>
+
+        <!-- Main Title -->
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-tight text-gray-900 mb-6 leading-tight">
+          Our Beautiful <br class="hidden sm:inline" />
+          <span class="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 bg-clip-text text-transparent">
+            Memories
+          </span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed mb-8 italic font-serif">
+          “Every moment becomes a memory, and every memory becomes a story.”
+        </p>
+
+        <!-- Friendship Avatars Circle with Glow -->
+        <div class="relative w-44 h-44 sm:w-56 sm:h-56 mx-auto mb-10 group">
+          <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-rose-400 via-pink-400 to-violet-500 blur-xl opacity-60 group-hover:opacity-80 transition-opacity animate-pulse-glow"></div>
+          <div class="relative w-full h-full rounded-full p-2 glass-card border-2 border-white/80 shadow-2xl flex items-center justify-center overflow-hidden">
+            <img 
+              id="heroAvatarImg" 
+              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=700&q=80" 
+              alt="Two best friends smiling" 
+              class="w-full h-full object-cover rounded-full hover:scale-110 transition-transform duration-700 cursor-pointer"
+              onclick="openLightbox('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=80', 'Us Together: Best Friends Forever', '2024')"
+            />
+            <div class="absolute bottom-2 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold text-rose-600 shadow border border-rose-100 flex items-center gap-1">
+              <span>You & Me</span> <i class="fa-solid fa-heart text-[10px] text-rose-500"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="#floating-cloud" class="px-7 py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-violet-500 text-white font-medium text-sm shadow-glow hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2">
+            <span>រុករកអនុស្សាវរីយ៍ (Explore)</span>
+            <i class="fa-solid fa-arrow-down-long"></i>
+          </a>
+          <button onclick="revealSurpriseLetter()" class="px-7 py-3 rounded-2xl glass-card border border-rose-200 text-rose-600 font-semibold text-sm hover:bg-white hover:shadow-glass hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2">
+            <i class="fa-solid fa-gift text-pink-500"></i>
+            <span>បើកសារសម្ងាត់</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="floating-cloud" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div class="text-center mb-14 reveal-elem">
+        <span class="text-xs font-semibold tracking-wider text-rose-500 uppercase bg-rose-50 px-3.5 py-1.5 rounded-full border border-rose-100">
+          Floating Dreamscape
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mt-3">
+          Moments Drifting in Time
+        </h2>
+        <p class="text-gray-500 text-sm sm:text-base mt-2 max-w-xl mx-auto font-light">
+          រូបភាពអណ្ដែតយឺតៗតាមខ្យល់។ ចុចលើរូបភាពណាមួយដើម្បីពង្រីកមើលទំហំធំ (Fullscreen Lightbox)
+        </p>
+      </div>
+
+      <!-- Floating Canvas Layout Container -->
+      <div id="floating-container" class="relative min-h-[550px] md:min-h-[640px] rounded-3xl glass-card p-6 md:p-10 border border-white/60 shadow-glass overflow-hidden">
+        
+        <!-- Floating Polaroid 1 -->
+        <div class="polaroid-frame absolute top-8 left-4 md:left-12 w-48 sm:w-60 bg-white p-3 pb-5 rounded-2xl animate-float-1 cursor-pointer"
+             onclick="openLightbox('https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1200', 'ដំណើរកម្សាន្តមាត់បឹងដំបូង', '15 Feb 2024')">
+          <div class="relative h-36 sm:h-44 rounded-xl overflow-hidden mb-3 bg-rose-50">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600" alt="Lake trip" class="w-full h-full object-cover" />
+            <span class="absolute top-2 right-2 bg-white/80 backdrop-blur rounded-full px-2 py-0.5 text-[10px] font-semibold text-rose-500">☕ Coffee & Sun</span>
+          </div>
+          <p class="font-serif text-sm font-semibold text-gray-800 text-center">First Weekend Escape</p>
+          <p class="text-[11px] text-gray-400 text-center mt-0.5">Feb 15, 2024</p>
+        </div>
+
+        <!-- Floating Polaroid 2 -->
+        <div class="polaroid-frame absolute top-6 right-4 md:right-16 w-44 sm:w-56 bg-white p-3 pb-5 rounded-2xl animate-float-2 cursor-pointer"
+             onclick="openLightbox('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200', 'អង្គុយចាំថ្ងៃលិចជាមួយគ្នា', '22 Apr 2024')">
+          <div class="relative h-32 sm:h-40 rounded-xl overflow-hidden mb-3 bg-rose-50">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" alt="Sunset beach" class="w-full h-full object-cover" />
+            <span class="absolute top-2 right-2 bg-white/80 backdrop-blur rounded-full px-2 py-0.5 text-[10px] font-semibold text-violet-500">🌅 Golden Hour</span>
+          </div>
+          <p class="font-serif text-sm font-semibold text-gray-800 text-center">Sea Salt & Sunset</p>
+          <p class="text-[11px] text-gray-400 text-center mt-0.5">Apr 22, 2024</p>
+        </div>
+
+        <!-- Floating Polaroid 3 (Center) -->
+        <div class="polaroid-frame hidden sm:block absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/4 w-52 md:w-64 bg-white p-3.5 pb-5 rounded-2xl animate-float-3 cursor-pointer z-10"
+             onclick="openLightbox('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200', 'យប់នៃការប្រគំតន្ត្រី និងការសើចសប្បាយ', '10 Jun 2024')">
+          <div class="relative h-40 sm:h-48 rounded-xl overflow-hidden mb-3 bg-rose-50">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600" alt="Music night" class="w-full h-full object-cover" />
+            <span class="absolute top-2 right-2 bg-white/80 backdrop-blur rounded-full px-2 py-0.5 text-[10px] font-semibold text-amber-500">🎸 Concert Night</span>
+          </div>
+          <p class="font-serif text-sm font-semibold text-gray-800 text-center">Singing Our Lungs Out</p>
+          <p class="text-[11px] text-gray-400 text-center mt-0.5">Jun 10, 2024</p>
+        </div>
+
+        <!-- Floating Polaroid 4 -->
+        <div class="polaroid-frame absolute bottom-6 left-6 md:left-24 w-44 sm:w-56 bg-white p-3 pb-5 rounded-2xl animate-float-2 cursor-pointer"
+             onclick="openLightbox('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200', 'ធ្វើកិច្ចការសាលា និងញ៉ាំ Pizza ពេលយប់', '18 Aug 2024')">
+          <div class="relative h-32 sm:h-38 rounded-xl overflow-hidden mb-3 bg-rose-50">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600" alt="Study session" class="w-full h-full object-cover" />
+            <span class="absolute top-2 right-2 bg-white/80 backdrop-blur rounded-full px-2 py-0.5 text-[10px] font-semibold text-emerald-500">🍕 Late Night Study</span>
+          </div>
+          <p class="font-serif text-sm font-semibold text-gray-800 text-center">Cramming & Laughing</p>
+          <p class="text-[11px] text-gray-400 text-center mt-0.5">Aug 18, 2024</p>
+        </div>
+
+        <!-- Floating Polaroid 5 -->
+        <div class="polaroid-frame absolute bottom-8 right-6 md:right-24 w-48 sm:w-60 bg-white p-3 pb-5 rounded-2xl animate-float-1 cursor-pointer"
+             onclick="openLightbox('https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=1200', 'ពិធីខួបកំណើតដ៏ភ្ញាក់ផ្អើលបំផុត', '04 Nov 2024')">
+          <div class="relative h-36 sm:h-44 rounded-xl overflow-hidden mb-3 bg-rose-50">
+            <img src="https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=600" alt="Birthday surprise" class="w-full h-full object-cover" />
+            <span class="absolute top-2 right-2 bg-white/80 backdrop-blur rounded-full px-2 py-0.5 text-[10px] font-semibold text-pink-500">🎂 Birthday Surprise</span>
+          </div>
+          <p class="font-serif text-sm font-semibold text-gray-800 text-center">Unforgettable Smiles</p>
+          <p class="text-[11px] text-gray-400 text-center mt-0.5">Nov 04, 2024</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="stats" class="py-14 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="glass-card rounded-3xl p-8 sm:p-10 shadow-glass border border-white/70">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-rose-100">
+          
+          <!-- Stat 1 -->
+          <div class="pt-4 md:pt-0">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-rose-100 text-rose-500 flex items-center justify-center text-xl shadow-sm">
+              <i class="fa-solid fa-heart"></i>
+            </div>
+            <div class="text-3xl sm:text-4xl font-bold font-serif text-gray-800 counter-value" data-target="28">0</div>
+            <div class="text-xs sm:text-sm text-gray-500 mt-1 font-medium">Memories Stored</div>
+          </div>
+
+          <!-- Stat 2 -->
+          <div class="pt-4 md:pt-0">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-violet-100 text-violet-500 flex items-center justify-center text-xl shadow-sm">
+              <i class="fa-solid fa-camera-retro"></i>
+            </div>
+            <div class="text-3xl sm:text-4xl font-bold font-serif text-gray-800 counter-value" data-target="142">0</div>
+            <div class="text-xs sm:text-sm text-gray-500 mt-1 font-medium">Captured Photos</div>
+          </div>
+
+          <!-- Stat 3 -->
+          <div class="pt-4 md:pt-0">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-amber-100 text-amber-500 flex items-center justify-center text-xl shadow-sm">
+              <i class="fa-solid fa-calendar-heart"></i>
+            </div>
+            <div class="text-3xl sm:text-4xl font-bold font-serif text-gray-800 counter-value" data-target="580">0</div>
+            <div class="text-xs sm:text-sm text-gray-500 mt-1 font-medium">Days of Friendship</div>
+          </div>
+
+          <!-- Stat 4 -->
+          <div class="pt-4 md:pt-0">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-pink-100 text-pink-500 flex items-center justify-center text-xl shadow-sm">
+              <i class="fa-solid fa-sparkles"></i>
+            </div>
+            <div class="text-3xl sm:text-4xl font-bold font-serif text-gray-800 counter-value" data-target="64">0</div>
+            <div class="text-xs sm:text-sm text-gray-500 mt-1 font-medium">Special Moments</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline" class="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <div class="text-center mb-16 reveal-elem">
+        <span class="text-xs font-semibold tracking-wider text-violet-600 uppercase bg-violet-100 px-3.5 py-1.5 rounded-full border border-violet-200">
+          Chronicles
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mt-3">
+          Our Journey
+        </h2>
+        <p class="text-gray-500 text-sm sm:text-base mt-2 max-w-xl mx-auto font-light">
+          ដំណើរកម្សាន្ត និងពេលវេលាដែលបានកត់សម្គាល់ក្នុងបេះដូងពីជំហានដំបូងរហូតមកទល់ពេលនេះ
+        </p>
+      </div>
+
+      <!-- Vertical Timeline Track -->
+      <div class="relative">
+        <!-- Center line -->
+        <div class="absolute left-4 sm:left-1/2 top-4 bottom-4 w-0.5 bg-gradient-to-b from-rose-300 via-purple-300 to-rose-200 transform -translate-x-1/2"></div>
+
+        <!-- Dynamic Timeline Item Container -->
+        <div id="timelineContainer" class="space-y-12 sm:space-y-16">
+          <!-- Timeline items injected via JS -->
+        </div>
+      </div>
+    </section>
+
+    <section id="special" class="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      <div class="text-center mb-10 reveal-elem">
+        <span class="text-xs font-semibold tracking-wider text-rose-500 uppercase bg-rose-50 px-3.5 py-1.5 rounded-full border border-rose-100">
+          Core Memory
+        </span>
+      </div>
+
+      <div class="relative rounded-3xl glass-card p-6 sm:p-10 border-2 border-rose-300/80 shadow-glow reveal-elem group overflow-hidden">
+        <!-- Floating Heart Accents -->
+        <div class="absolute -top-4 -right-4 w-24 h-24 bg-rose-300/30 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-violet-300/30 rounded-full blur-2xl pointer-events-none"></div>
+        
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <!-- Big Memory Photo -->
+          <div class="w-full md:w-1/2 relative rounded-2xl overflow-hidden shadow-md group-hover:shadow-glow transition-all duration-500">
+            <img 
+              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800" 
+              alt="A Memory I will never forget"
+              class="w-full h-72 sm:h-80 object-cover group-hover:scale-105 transition-transform duration-700 cursor-pointer"
+              onclick="openLightbox(this.src, 'A Memory I Will Never Forget ❤️', '24 December 2024')"
+            />
+            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold text-rose-600 shadow">
+              <i class="fa-solid fa-star text-amber-400"></i> Precious Moment
+            </div>
+          </div>
+
+          <!-- Description & Heartfelt Words -->
+          <div class="w-full md:w-1/2 text-left space-y-4">
+            <div class="flex items-center gap-2 text-xs font-semibold text-rose-500 uppercase tracking-widest">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span>December 24, 2024</span>
+            </div>
+            
+            <h3 class="text-2xl sm:text-3xl font-serif font-bold text-gray-900 leading-snug">
+              A Memory I Will Never Forget ❤️
+            </h3>
+
+            <p class="text-gray-600 text-sm sm:text-base leading-relaxed font-light">
+              "ទោះបីជាពេលវេលាកន្លងផុតទៅយូរប៉ុណ្ណា ឬផ្លូវជីវិតត្រូវដើរបែកគ្នាយ៉ាងណាក៏ដោយ អនុស្សាវរីយ៍ថ្ងៃដែលយើងបានអង្គុយជជែកគ្នាក្រោមពន្លឺផ្កាយ នឹងនៅតែជាកន្លែងដ៏កក់ក្តៅបំផុតនៅក្នុងបេះដូងខ្ញុំជានិច្ច។ អរគុណដែលបានកើតមកជាមិត្តដ៏ល្អបំផុត!"
+            </p>
+
+            <div class="pt-2 flex items-center justify-between border-t border-rose-100">
+              <div class="flex items-center gap-2 text-sm text-gray-500 italic font-serif">
+                <span>With forever love & care,</span>
+              </div>
+              <div class="flex gap-1 text-rose-500 animate-pulse">
+                <i class="fa-solid fa-heart"></i>
+                <i class="fa-solid fa-heart text-xs"></i>
+                <i class="fa-solid fa-heart text-[10px]"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <div class="text-center mb-12 reveal-elem">
+        <span class="text-xs font-semibold tracking-wider text-rose-500 uppercase bg-rose-50 px-3.5 py-1.5 rounded-full border border-rose-100">
+          Photo Vault
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mt-3">
+          Memory Gallery
+        </h2>
+        <p class="text-gray-500 text-sm sm:text-base mt-2 max-w-xl mx-auto font-light">
+          រូបថតរាប់រយសន្លឹក ដែលផ្ទុកទៅដោយស្នាមញញឹម ដំណើរកម្សាន្ត និងរឿងរ៉ាវគួរឱ្យចងចាំ
+        </p>
+
+        <!-- Gallery Category Filter Tabs -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mt-8">
+          <button onclick="filterGallery('all')" class="gallery-tab active-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 bg-rose-500 text-white shadow-sm" data-category="all">
+            All Photos
+          </button>
+          <button onclick="filterGallery('Trips')" class="gallery-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 glass-card text-gray-600 hover:text-rose-600" data-category="Trips">
+            ✈️ Trips
+          </button>
+          <button onclick="filterGallery('Special')" class="gallery-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 glass-card text-gray-600 hover:text-rose-600" data-category="Special">
+            🎉 Special Days
+          </button>
+          <button onclick="filterGallery('Everyday')" class="gallery-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 glass-card text-gray-600 hover:text-rose-600" data-category="Everyday">
+            ☕ Everyday Fun
+          </button>
+        </div>
+      </div>
+
+      <!-- Responsive Masonry Grid -->
+      <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Rendered dynamically through JS -->
+      </div>
+    </section>
+
+    <section id="friendship" class="py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
+      <div class="glass-card rounded-3xl p-8 sm:p-14 border border-white/80 shadow-glass reveal-elem relative overflow-hidden">
+        
+        <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-rose-100 text-rose-500 flex items-center justify-center text-2xl shadow-inner">
+          <i class="fa-solid fa-gift"></i>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mb-3">
+          A Little Surprise for You
+        </h2>
+        <p class="text-gray-500 text-sm sm:text-base max-w-md mx-auto mb-8 font-light">
+          មានពាក្យពេចន៍ និងសារសម្ងាត់មួយដែលចង់ប្រាប់។ សូមចុចប៊ូតុងខាងក្រោមដើម្បីបើកមើល ❤️
+        </p>
+
+        <!-- Big Reveal Button -->
+        <button 
+          id="revealBtn" 
+          onclick="revealSurpriseLetter()"
+          class="relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-violet-500 text-white font-semibold text-base shadow-glow hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300">
+          <i class="fa-solid fa-heart animate-ping text-rose-200"></i>
+          <span>Click to Reveal Our Memory ❤️</span>
+        </button>
+
+        <!-- Hidden Surprise Content Box -->
+        <div id="surpriseContent" class="hidden mt-10 p-6 sm:p-8 rounded-2xl bg-white/80 border border-rose-200 shadow-xl transition-all duration-700 transform scale-95 opacity-0 text-left">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs">
+              <i class="fa-solid fa-quote-left"></i>
+            </span>
+            <span class="font-serif font-bold text-gray-800 text-lg">Dear Best Friend,</span>
+          </div>
+
+          <p class="text-gray-700 leading-relaxed font-serif text-base sm:text-lg mb-6 italic">
+            “Thank you for being part of my story. Through the laughs, the silent moments, the crazy adventures, and the difficult days—you have made every single step worth remembering. No matter how far life takes us, you will always have a special home in my memories.”
+          </p>
+
+          <div class="rounded-xl overflow-hidden shadow-md max-h-72 mb-4">
+            <img 
+              src="https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=1000" 
+              alt="Friendship Hug" 
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <div class="flex justify-between items-center text-xs sm:text-sm text-gray-500 font-medium">
+            <span>✨ Always by your side</span>
+            <span class="text-rose-500 font-semibold">Forever Friends</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <div id="addMemoryModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">
+    <div class="glass-card bg-white/95 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white relative max-h-[90vh] overflow-y-auto">
+      
+      <!-- Close modal button -->
+      <button onclick="closeAddMemoryModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-gray-100 hover:bg-rose-100 text-gray-600 hover:text-rose-600 flex items-center justify-center transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-500 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-serif font-bold text-gray-900">Add New Memory</h3>
+          <p class="text-xs text-gray-500">កត់ត្រាអនុស្សាវរីយ៍ថ្មីចូលក្នុង Memory Book</p>
+        </div>
+      </div>
+
+      <form id="addMemoryForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Memory Title (ចំណងជើង)</label>
+          <input type="text" id="memoryTitle" required placeholder="e.g. ដំណើរកម្សាន្តនៅភ្នំពេញ" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Date (កាលបរិច្ឆេទ)</label>
+            <input type="date" id="memoryDate" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400 text-gray-700" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Category (ប្រភេទ)</label>
+            <select id="memoryCategory" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400 text-gray-700">
+              <option value="Trips">✈️ Trips</option>
+              <option value="Special">🎉 Special Day</option>
+              <option value="Everyday">☕ Everyday Fun</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Memory Description (ការរៀបរាប់)</label>
+          <textarea id="memoryDesc" rows="3" required placeholder="សរសេររៀបរាប់ពីអារម្មណ៍ និងការចងចាំ..." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Memory Image (រូបថត)</label>
+          <div class="space-y-2">
+            <input type="file" id="memoryFileInput" accept="image/*" class="w-full text-xs text-gray-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-rose-600 hover:file:bg-rose-100" />
+            <div class="text-center text-xs text-gray-400 font-light">— ឬ ដាក់ URL រូបភាព —</div>
+            <input type="url" id="memoryUrlInput" placeholder="https://example.com/photo.jpg" class="w-full px-4 py-2 rounded-xl border border-gray-200 text-xs focus:outline-none focus:ring-2 focus:ring-rose-400" />
+          </div>
+        </div>
+
+        <div class="pt-3">
+          <button type="submit" class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-violet-500 hover:from-rose-600 hover:to-violet-600 text-white font-semibold text-sm shadow-glow active:scale-95 transition-all">
+            Add Memory ❤️
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="lightboxModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md">
+    <!-- Close button -->
+    <button onclick="closeLightbox()" aria-label="Close Lightbox" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/20 hover:bg-white text-white hover:text-black flex items-center justify-center text-lg transition-all duration-300 z-50">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <!-- Prev button -->
+    <button onclick="navigateLightbox(-1)" aria-label="Previous Photo" class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/20 hover:bg-white text-white hover:text-black flex items-center justify-center text-lg transition-all duration-300 z-50">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <!-- Next button -->
+    <button onclick="navigateLightbox(1)" aria-label="Next Photo" class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/20 hover:bg-white text-white hover:text-black flex items-center justify-center text-lg transition-all duration-300 z-50">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <!-- Content presentation -->
+    <div class="max-w-4xl w-full flex flex-col items-center justify-center text-center">
+      <div class="relative max-h-[75vh] overflow-hidden rounded-2xl shadow-2xl mb-4 border border-white/20">
+        <img id="lightboxImg" src="" alt="Memory Fullscreen" class="max-h-[75vh] w-auto object-contain rounded-2xl transition-opacity duration-300" />
+      </div>
+      <div class="text-white max-w-xl px-4">
+        <p id="lightboxDate" class="text-xs text-rose-300 font-semibold mb-1"></p>
+        <h4 id="lightboxCaption" class="text-lg sm:text-xl font-serif font-bold text-white"></h4>
+      </div>
+    </div>
+  </div>
+
+  <footer class="py-12 border-t border-rose-200/60 text-center text-gray-500 text-xs sm:text-sm font-light">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-3">
+      <div class="flex items-center gap-2 text-rose-500 text-base">
+        <i class="fa-solid fa-heart"></i>
+        <i class="fa-solid fa-sparkles text-amber-400"></i>
+        <i class="fa-solid fa-heart"></i>
+      </div>
+      <p class="font-serif">Our Memory — A Digital Scrapbook of Pure Friendship</p>
+      <p class="text-gray-400 text-xs">រក្សាសិទ្ធិគ្រប់យ៉ាងដោយក្ដីស្រឡាញ់ និងការចងចាំរវាងយើងទាំងពីរ</p>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================================================
+       1. Initial Data Store & LocalStorage Setup
+       ========================================================= */
+    const DEFAULT_MEMORIES = [
+      {
+        id: 1,
+        title: "First Meeting (ការជួបគ្នាលើកដំបូង)",
+        date: "2023-01-14",
+        category: "Special",
+        icon: "fa-calendar-heart",
+        desc: "ថ្ងៃដំបូងដែលយើងបានស្គាល់គ្នាក្នុងថ្នាក់រៀន។ ចាប់ផ្តើមដោយការសុំខ្ចីប៊ិចមួយដើម រហូតក្លាយជាមិត្តជិតស្និទ្ធបំផុត!",
+        img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800"
+      },
+      {
+        id: 2,
+        title: "First Photo Together (រូបថតដំបូង)",
+        date: "2023-03-20",
+        category: "Everyday",
+        icon: "fa-camera-retro",
+        desc: "រូបថត Selfie ដំបូងគេបង្អស់របស់យើងទាំងពីរ មុខឡើងកំប្លែង មិនទាន់ចេះរកមុំស្អាតនៅឡើយ។",
+        img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800"
+      },
+      {
+        id: 3,
+        title: "Funny Late-Night Rain (រត់កាត់ភ្លៀង)",
+        date: "2023-07-10",
+        category: "Everyday",
+        icon: "fa-face-laugh-squint",
+        desc: "ភ្លៀងធ្លាក់ខ្លាំងពេលដើរទិញអីហូប ត្រូវរត់កាត់ភ្លៀងចូលជ្រកក្រោមសំយាបផ្ទះគេ ទទឹកជោកទាំងពីរនាក់ហើយផ្ទុះសំណើច!",
+        img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800"
+      },
+      {
+        id: 4,
+        title: "Our Trip to Sea (ដំណើរទៅសមុទ្រ)",
+        date: "2023-11-28",
+        category: "Trips",
+        icon: "fa-plane-departure",
+        desc: "ដំណើរកម្សាន្តទៅខេត្តកំពត និងកែប ញ៉ាំក្តាម អង្គុយមើលថ្ងៃលិច និងនិយាយរឿងអនាគតជាមួយគ្នា។",
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800"
+      },
+      {
+        id: 5,
+        title: "Surprise Birthday Party (ខួបកំណើតដ៏ភ្ញាក់ផ្អើល)",
+        date: "2024-04-12",
+        category: "Special",
+        icon: "fa-cake-candles",
+        desc: "ការរៀបចំខួបកំណើតសម្ងាត់ បន្លំធ្វើជាភ្លេច ធ្វើឱ្យម្ចាស់ខួបយំរំភើបស្ទើរតែដកដង្ហើមមិនដល់គ្នា។",
+        img: "https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=800"
+      },
+      {
+        id: 6,
+        title: "Music Festival Vibes (ការប្រគំតន្ត្រី)",
+        date: "2024-08-05",
+        category: "Trips",
+        icon: "fa-guitar",
+        desc: "ស្រែកច្រៀងតាមបទចម្រៀងដែលយើងចូលចិត្តរហូតបែកសំឡេង តែជាយប់ដែលសប្បាយបំផុត!",
+        img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800"
+      }
+    ];
+
+    let memories = JSON.parse(localStorage.getItem('our_memories')) || DEFAULT_MEMORIES;
+
+    function saveMemories() {
+      localStorage.setItem('our_memories', JSON.stringify(memories));
+    }
+
+    /* =========================================================
+       2. Background Floating Particles (Canvas)
+       ========================================================= */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + Math.random() * 50;
+        this.size = Math.random() * 7 + 4;
+        this.speedY = Math.random() * 0.7 + 0.3;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.type = Math.random() > 0.45 ? 'heart' : 'sparkle';
+        this.alpha = Math.random() * 0.45 + 0.2;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotSpeed = (Math.random() - 0.5) * 0.02;
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        this.rotation += this.rotSpeed;
+        if (this.y < -20 || this.x < -20 || this.x > canvas.width + 20) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.alpha;
+
+        if (this.type === 'heart') {
+          ctx.fillStyle = '#f43f5e';
+          ctx.beginPath();
+          const s = this.size;
+          ctx.moveTo(0, 0);
+          ctx.bezierCurveTo(-s / 2, -s / 2, -s, s / 3, 0, s);
+          ctx.bezierCurveTo(s, s / 3, s / 2, -s / 2, 0, 0);
+          ctx.fill();
+        } else {
+          ctx.fillStyle = '#a855f7';
+          ctx.beginPath();
+          const r = this.size / 1.5;
+          ctx.arc(0, 0, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 35; i++) {
+      const p = new Particle();
+      p.y = Math.random() * canvas.height;
+      particles.push(p);
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    /* =========================================================
+       3. Custom Cursor & Interactive Trail
+       ========================================================= */
+    const cursor = document.getElementById('cursor');
+    if (cursor) {
+      window.addEventListener('mousemove', (e) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+      });
+      document.querySelectorAll('a, button, input, textarea, select, .polaroid-frame').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1.8)';
+          cursor.style.backgroundColor = 'rgba(244, 63, 94, 0.4)';
+        });
+        el.addEventListener('mouseleave', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursor.style.backgroundColor = 'rgba(253, 164, 175, 0.35)';
+        });
+      });
+    }
+
+    /* =========================================================
+       4. Web Audio Romantic Synthesizer (No Broken Audio Files!)
+       ========================================================= */
+    let audioCtx = null;
+    let isPlaying = false;
+    let musicTimer = null;
+    const notes = [
+      261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 523.25, // C4 to C5
+      392.00, 329.63, 440.00, 349.23, 293.66, 261.63
+    ];
+    let noteIndex = 0;
+
+    function playSoftNote(freq) {
+      if (!audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 0.15);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.3);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    const musicBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    const musicText = document.getElementById('musicText');
+
+    musicBtn.addEventListener('click', () => {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        musicIcon.className = 'fa-solid fa-music animate-spin text-sm';
+        musicText.innerText = 'Music ON';
+        musicBtn.classList.add('bg-rose-500', 'text-white');
+        musicBtn.classList.remove('text-rose-600');
+
+        musicTimer = setInterval(() => {
+          playSoftNote(notes[noteIndex]);
+          noteIndex = (noteIndex + 1) % notes.length;
+        }, 650);
+      } else {
+        clearInterval(musicTimer);
+        musicIcon.className = 'fa-solid fa-volume-xmark text-sm';
+        musicText.innerText = 'Music OFF';
+        musicBtn.classList.remove('bg-rose-500', 'text-white');
+        musicBtn.classList.add('text-rose-600');
+      }
+    });
+
+    /* =========================================================
+       5. Timeline Rendering
+       ========================================================= */
+    const timelineContainer = document.getElementById('timelineContainer');
+
+    function renderTimeline() {
+      timelineContainer.innerHTML = '';
+      memories.forEach((item, index) => {
+        const isEven = index % 2 === 0;
+        const iconClass = item.icon || 'fa-heart';
+        
+        const cardHtml = `
+          <div class="relative flex items-center justify-between sm:${isEven ? 'flex-row' : 'flex-row-reverse'} flex-row w-full group reveal-elem">
+            
+            <!-- Left or Right Empty spacer for desktop -->
+            <div class="hidden sm:block w-5/12"></div>
+
+            <!-- Central Timeline Icon Badge -->
+            <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white border-2 border-rose-400 text-rose-500 flex items-center justify-center shadow-md z-10 group-hover:scale-125 transition-transform duration-300">
+              <i class="fa-solid ${iconClass} text-xs"></i>
+            </div>
+
+            <!-- Content Card -->
+            <div class="ml-14 sm:ml-0 w-full sm:w-5/12">
+              <div class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-glass transition-all duration-300 border border-white/70">
+                <div class="relative h-44 rounded-xl overflow-hidden mb-3.5 bg-rose-50">
+                  <img 
+                    src="${item.img}" 
+                    alt="${item.title}" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
+                    onclick="openLightbox('${item.img}', '${item.title}', '${item.date}')"
+                    onerror="this.src='https://placehold.co/600x400/fda4af/ffffff?text=Our+Memory'"
+                  />
+                  <span class="absolute top-2 left-2 bg-white/90 backdrop-blur rounded-lg px-2.5 py-1 text-[11px] font-semibold text-rose-600 shadow-sm">
+                    ${item.date}
+                  </span>
+                </div>
+                <h4 class="font-serif font-bold text-base text-gray-800 mb-1">${item.title}</h4>
+                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed font-light">${item.desc}</p>
+              </div>
+            </div>
+
+          </div>
+        `;
+        timelineContainer.insertAdjacentHTML('beforeend', cardHtml);
+      });
+      initScrollReveal();
+    }
+
+    /* =========================================================
+       6. Gallery Rendering & Filtering
+       ========================================================= */
+    const galleryGrid = document.getElementById('galleryGrid');
+    let currentFilter = 'all';
+
+    function renderGallery() {
+      galleryGrid.innerHTML = '';
+      const filtered = currentFilter === 'all' 
+        ? memories 
+        : memories.filter(m => m.category === currentFilter);
+
+      filtered.forEach((item) => {
+        const itemHtml = `
+          <div class="glass-card rounded-2xl p-4 shadow-glass hover:shadow-glass-hover transition-all duration-300 border border-white/80 group reveal-elem">
+            <div class="relative h-56 rounded-xl overflow-hidden mb-3 bg-rose-50">
+              <img 
+                src="${item.img}" 
+                alt="${item.title}" 
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 cursor-pointer"
+                onclick="openLightbox('${item.img}', '${item.title}', '${item.date}')"
+                onerror="this.src='https://placehold.co/600x400/fda4af/ffffff?text=Our+Memory'"
+              />
+              <span class="absolute top-2 right-2 bg-black/50 backdrop-blur text-white text-[10px] font-semibold px-2 py-1 rounded-full">
+                ${item.category}
+              </span>
+            </div>
+            <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
+              <span>${item.date}</span>
+              <span class="text-rose-400 hover:text-rose-600 cursor-pointer" onclick="openLightbox('${item.img}', '${item.title}', '${item.date}')">
+                <i class="fa-solid fa-expand"></i> Zoom
+              </span>
+            </div>
+            <h4 class="font-serif font-bold text-base text-gray-800 mb-1">${item.title}</h4>
+            <p class="text-xs text-gray-500 line-clamp-2">${item.desc}</p>
+          </div>
+        `;
+        galleryGrid.insertAdjacentHTML('beforeend', itemHtml);
+      });
+      initScrollReveal();
+    }
+
+    function filterGallery(category) {
+      currentFilter = category;
+      document.querySelectorAll('.gallery-tab').forEach(tab => {
+        if (tab.dataset.category === category) {
+          tab.classList.remove('glass-card', 'text-gray-600');
+          tab.classList.add('bg-rose-500', 'text-white');
+        } else {
+          tab.classList.remove('bg-rose-500', 'text-white');
+          tab.classList.add('glass-card', 'text-gray-600');
+        }
+      });
+      renderGallery();
+    }
+
+    /* =========================================================
+       7. Lightbox with Next/Prev/ESC
+       ========================================================= */
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxDate = document.getElementById('lightboxDate');
+    let currentLightboxIndex = 0;
+
+    function openLightbox(src, caption, date) {
+      // Find matching item index or default
+      const foundIdx = memories.findIndex(m => m.img === src);
+      currentLightboxIndex = foundIdx !== -1 ? foundIdx : 0;
+      updateLightboxContent(src, caption, date);
+      lightboxModal.classList.remove('hidden');
+    }
+
+    function updateLightboxContent(src, caption, date) {
+      lightboxImg.style.opacity = '0';
+      setTimeout(() => {
+        lightboxImg.src = src;
+        lightboxCaption.innerText = caption;
+        lightboxDate.innerText = date;
+        lightboxImg.style.opacity = '1';
+      }, 150);
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.add('hidden');
+    }
+
+    function navigateLightbox(dir) {
+      currentLightboxIndex = (currentLightboxIndex + dir + memories.length) % memories.length;
+      const mem = memories[currentLightboxIndex];
+      updateLightboxContent(mem.img, mem.title, mem.date);
+    }
+
+    // Keyboard controls (ESC and Arrow keys)
+    window.addEventListener('keydown', (e) => {
+      if (!lightboxModal.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') navigateLightbox(1);
+        if (e.key === 'ArrowLeft') navigateLightbox(-1);
+      }
+    });
+
+    /* =========================================================
+       8. Interactive Friendship Reveal + Hearts Burst
+       ========================================================= */
+    function revealSurpriseLetter() {
+      const content = document.getElementById('surpriseContent');
+      content.classList.remove('hidden');
+      setTimeout(() => {
+        content.classList.remove('scale-95', 'opacity-0');
+        content.classList.add('scale-100', 'opacity-100');
+      }, 50);
+
+      // Play joyful chime note if audio context exists
+      if (audioCtx) {
+        playSoftNote(523.25);
+        setTimeout(() => playSoftNote(659.25), 200);
+      }
+
+      // Burst hearts particles into canvas
+      for (let i = 0; i < 25; i++) {
+        const p = new Particle();
+        p.x = window.innerWidth / 2 + (Math.random() - 0.5) * 200;
+        p.y = window.innerHeight * 0.7;
+        p.speedY = Math.random() * 3 + 1.5;
+        p.alpha = 1;
+        particles.push(p);
+      }
+    }
+
+    /* =========================================================
+       9. Modal Add Memory (Admin/User UI) & File Upload to LocalStorage
+       ========================================================= */
+    const addMemoryModal = document.getElementById('addMemoryModal');
+
+    function openAddMemoryModal() {
+      addMemoryModal.classList.remove('hidden');
+    }
+
+    function closeAddMemoryModal() {
+      addMemoryModal.classList.add('hidden');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('memoryTitle').value.trim();
+      const date = document.getElementById('memoryDate').value;
+      const category = document.getElementById('memoryCategory').value;
+      const desc = document.getElementById('memoryDesc').value.trim();
+      const fileInput = document.getElementById('memoryFileInput');
+      const urlInput = document.getElementById('memoryUrlInput').value.trim();
+
+      const proceedWithImage = (imageDataUrl) => {
+        const newMemory = {
+          id: Date.now(),
+          title: title,
+          date: date,
+          category: category,
+          desc: desc,
+          img: imageDataUrl || 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800',
+          icon: 'fa-heart'
+        };
+
+        memories.unshift(newMemory);
+        saveMemories();
+        renderTimeline();
+        renderGallery();
+        closeAddMemoryModal();
+        e.target.reset();
+      };
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          proceedWithImage(evt.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (urlInput) {
+        proceedWithImage(urlInput);
+      } else {
+        proceedWithImage('https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800');
+      }
+    }
+
+    /* =========================================================
+       10. Scroll Reveal Observer & Counter Animation
+       ========================================================= */
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, { threshold: 0.15 });
+
+      document.querySelectorAll('.reveal-elem').forEach(el => observer.observe(el));
+    }
+
+    // Number Counter Animation
+    let counted = false;
+    const statsSection = document.getElementById('stats');
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !counted) {
+          counted = true;
+          document.querySelectorAll('.counter-value').forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            let count = 0;
+            const step = Math.ceil(target / 40);
+            const timer = setInterval(() => {
+              count += step;
+              if (count >= target) {
+                counter.innerText = target + (target > 50 ? '+' : '');
+                clearInterval(timer);
+              } else {
+                counter.innerText = count;
+              }
+            }, 35);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    if (statsSection) statObserver.observe(statsSection);
+
+    /* =========================================================
+       11. Mobile Hamburger Menu Toggle
+       ========================================================= */
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    /* =========================================================
+       12. Initial Load
+       ========================================================= */
+    window.onload = function() {
+      renderTimeline();
+      renderGallery();
+      initScrollReveal();
+    };
+  </script>
+</body>
+</html>
